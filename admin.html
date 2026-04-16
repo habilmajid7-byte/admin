@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | HabilHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+    <div id="particles-canvas"></div>
+    
+    <div class="login-screen" id="loginScreen">
+        <div class="login-container">
+            <div class="login-bg">
+                <div class="bg-shape shape-1"></div>
+                <div class="bg-shape shape-2"></div>
+                <div class="bg-shape shape-3"></div>
+            </div>
+            
+            <div class="login-box glass">
+                <div class="login-header">
+                    <div class="login-logo">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h1>Admin Portal</h1>
+                    <p>Enter your credentials to access the dashboard</p>
+                </div>
+                
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="username">
+                            <i class="fas fa-user"></i>
+                            Username
+                        </label>
+                        <input type="text" id="username" placeholder="Enter username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">
+                            <i class="fas fa-lock"></i>
+                            Password
+                        </label>
+                        <div class="password-input">
+                            <input type="password" id="password" placeholder="Enter password" required>
+                            <button type="button" class="toggle-password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" id="remember">
+                            <span class="checkmark"></span>
+                            Remember me
+                        </label>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Login
+                    </button>
+                </form>
+                
+                <div class="login-footer">
+                    <p>Default credentials: <strong>admin</strong> / <strong>admin123</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-container" id="adminContainer" style="display: none;">
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <span>Admin<span class="accent">Panel</span></span>
+                </div>
+            </div>
+            
+            <nav class="admin-nav">
+                <a href="#" class="nav-item active" data-tab="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="notifications">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                    <span class="badge" id="adminNotificationBadge">0</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="content">
+                    <i class="fas fa-edit"></i>
+                    <span>Edit Content</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="users">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="analytics">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="index.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to Website</span>
+                </a>
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <div class="header-left">
+                    <button class="menu-toggle" id="adminMenuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 id="pageTitle">Dashboard</h1>
+                </div>
+                
+                <div class="header-right">
+                    <div class="system-status">
+                        <span class="status-dot online"></span>
+                        <span>System Online</span>
+                    </div>
+                    <div class="header-time">
+                        <i class="fas fa-clock"></i>
+                        <span id="currentTime">--:--:--</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <div class="tab-content active" id="dashboard">
+                    <div class="dashboard-header">
+                        <div class="welcome-text">
+                            <h2>Welcome back, Admin!</h2>
+                            <p>Here's what's happening with your website today.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card glass">
+                            <div class="stat-icon visitors">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Total Visitors</span>
+                                <span class="stat-value" id="totalVisitors">0</span>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>12%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card glass">
+                            <div class="stat-icon views">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Page Views</span>
+                                <span class="stat-value" id="pageViews">0</span>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>8%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card glass">
+                            <div class="stat-icon notifications">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Notifications</span>
+                                <span class="stat-value" id="totalNotifications">0</span>
+                            </div>
+                            <div class="stat-trend neutral">
+                                <i class="fas fa-minus"></i>
+                                <span>0%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card glass">
+                            <div class="stat-icon users">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-label">Registered Users</span>
+                                <span class="stat-value" id="totalUsers">1</span>
+                            </div>
+                            <div class="stat-trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>5%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-charts">
+                        <div class="chart-card glass">
+                            <div class="chart-header">
+                                <h3>Visitor Analytics</h3>
+                                <div class="chart-controls">
+                                    <button class="chart-btn active" data-range="week">Week</button>
+                                    <button class="chart-btn" data-range="month">Month</button>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="visitorsChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-card glass">
+                            <div class="card-header">
+                                <h3>Recent Activity</h3>
+                            </div>
+                            <div class="activity-list" id="activityList">
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-user-plus"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p>New visitor arrived</p>
+                                        <span>Just now</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <h3>Quick Actions</h3>
+                        <div class="actions-grid">
+                            <button class="action-btn glass" data-tab="notifications">
+                                <i class="fas fa-bell"></i>
+                                <span>Post Notification</span>
+                            </button>
+                            <button class="action-btn glass" data-tab="content">
+                                <i class="fas fa-edit"></i>
+                                <span>Edit Content</span>
+                            </button>
+                            <button class="action-btn glass" data-tab="analytics">
+                                <i class="fas fa-chart-pie"></i>
+                                <span>View Analytics</span>
+                            </button>
+                            <button class="action-btn glass" data-tab="settings">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="notifications">
+                    <div class="section-header">
+                        <h2><i class="fas fa-bell"></i> Notification System</h2>
+                        <p>Manage and post announcements to the website</p>
+                    </div>
+                    
+                    <div class="notifications-panel">
+                        <div class="post-notification glass">
+                            <h3>Post New Notification</h3>
+                            <form id="notificationForm">
+                                <div class="form-group">
+                                    <label for="notificationTitle">Title</label>
+                                    <input type="text" id="notificationTitle" placeholder="Notification title" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="notificationMessage">Message</label>
+                                    <textarea id="notificationMessage" placeholder="Write your notification message..." required></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="notificationType">Type</label>
+                                    <select id="notificationType">
+                                        <option value="info">Information</option>
+                                        <option value="success">Success</option>
+                                        <option value="warning">Warning</option>
+                                        <option value="error">Error</option>
+                                    </select>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Post Notification
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="notifications-list glass">
+                            <div class="list-header">
+                                <h3>Posted Notifications</h3>
+                                <button class="btn btn-secondary" id="clearAllNotifications">
+                                    <i class="fas fa-trash"></i>
+                                    Clear All
+                                </button>
+                            </div>
+                            <div id="adminNotificationList">
+                                <div class="notification-empty">
+                                    <i class="fas fa-bell-slash"></i>
+                                    <p>No notifications posted yet</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="content">
+                    <div class="section-header">
+                        <h2><i class="fas fa-edit"></i> Content Management</h2>
+                        <p>Edit website content and sections</p>
+                    </div>
+                    
+                    <div class="content-editor">
+                        <div class="editor-section glass">
+                            <h3>Hero Section</h3>
+                            <form id="heroForm">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" id="editName" value="Habil Haji Majid">
+                                </div>
+                                <div class="form-group">
+                                    <label>Title</label>
+                                    <input type="text" id="editTitle" value="Full Stack Developer & Computer Science Student">
+                                </div>
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea id="editDescription">I am a dedicated student with a passion for academic excellence and personal development.</textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i>
+                                    Save Changes
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="editor-section glass">
+                            <h3>Social Links</h3>
+                            <form id="socialForm">
+                                <div class="form-group">
+                                    <label>GitHub</label>
+                                    <input type="url" id="editGitHub" placeholder="https://github.com/username">
+                                </div>
+                                <div class="form-group">
+                                    <label>LinkedIn</label>
+                                    <input type="url" id="editLinkedIn" placeholder="https://linkedin.com/in/username">
+                                </div>
+                                <div class="form-group">
+                                    <label>Twitter</label>
+                                    <input type="url" id="editTwitter" placeholder="https://twitter.com/username">
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i>
+                                    Save Changes
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="users">
+                    <div class="section-header">
+                        <h2><i class="fas fa-users"></i> User Management</h2>
+                        <p>Manage registered users and permissions</p>
+                    </div>
+                    
+                    <div class="users-panel">
+                        <div class="users-stats glass">
+                            <div class="user-stat">
+                                <i class="fas fa-users"></i>
+                                <div>
+                                    <span class="value" id="userCount">1</span>
+                                    <span class="label">Total Users</span>
+                                </div>
+                            </div>
+                            <div class="user-stat">
+                                <i class="fas fa-user-check"></i>
+                                <div>
+                                    <span class="value">1</span>
+                                    <span class="label">Active</span>
+                                </div>
+                            </div>
+                            <div class="user-stat">
+                                <i class="fas fa-user-clock"></i>
+                                <div>
+                                    <span class="value">0</span>
+                                    <span class="label">Pending</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="users-list glass">
+                            <div class="list-header">
+                                <h3>Registered Users</h3>
+                            </div>
+                            <table class="users-table">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                        <th>Joined</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTableBody">
+                                    <tr>
+                                        <td>
+                                            <div class="user-cell">
+                                                <img src="https://0473aa7733.cbaul-cdnwnd.com/56df75c58f19b6772e9fe87c73357754/200000024-39f1b39f1d/file_00000000230471f8ad7e588519238865.png?ph=0473aa7733" alt="User">
+                                                <span>Admin</span>
+                                            </div>
+                                        </td>
+                                        <td><span class="role admin">Admin</span></td>
+                                        <td><span class="status active">Active</span></td>
+                                        <td>--</td>
+                                        <td>
+                                            <button class="action-btn-small" title="Edit"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="analytics">
+                    <div class="section-header">
+                        <h2><i class="fas fa-chart-line"></i> Analytics Dashboard</h2>
+                        <p>View detailed website analytics and visitor data</p>
+                    </div>
+                    
+                    <div class="analytics-grid">
+                        <div class="analytics-card glass">
+                            <div class="analytics-header">
+                                <h3>Visitors Overview</h3>
+                                <select id="analyticsRange">
+                                    <option value="7">Last 7 days</option>
+                                    <option value="30">Last 30 days</option>
+                                    <option value="90">Last 90 days</option>
+                                </select>
+                            </div>
+                            <div class="analytics-chart">
+                                <canvas id="analyticsChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="analytics-stats">
+                            <div class="analytics-stat glass">
+                                <i class="fas fa-calendar-day"></i>
+                                <div>
+                                    <span class="value" id="todayVisitors">0</span>
+                                    <span class="label">Today's Visitors</span>
+                                </div>
+                            </div>
+                            <div class="analytics-stat glass">
+                                <i class="fas fa-calendar-week"></i>
+                                <div>
+                                    <span class="value" id="weekVisitors">0</span>
+                                    <span class="label">This Week</span>
+                                </div>
+                            </div>
+                            <div class="analytics-stat glass">
+                                <i class="fas fa-calendar-month"></i>
+                                <div>
+                                    <span class="value" id="monthVisitors">0</span>
+                                    <span class="label">This Month</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="analytics-card glass">
+                            <div class="analytics-header">
+                                <h3>Top Pages</h3>
+                            </div>
+                            <div class="top-pages">
+                                <div class="page-item">
+                                    <span class="page-name">Home</span>
+                                    <div class="page-bar">
+                                        <div class="page-progress" style="--progress: 100%"></div>
+                                    </div>
+                                    <span class="page-views">100%</span>
+                                </div>
+                                <div class="page-item">
+                                    <span class="page-name">Projects</span>
+                                    <div class="page-bar">
+                                        <div class="page-progress" style="--progress: 65%"></div>
+                                    </div>
+                                    <span class="page-views">65%</span>
+                                </div>
+                                <div class="page-item">
+                                    <span class="page-name">Skills</span>
+                                    <div class="page-bar">
+                                        <div class="page-progress" style="--progress: 45%"></div>
+                                    </div>
+                                    <span class="page-views">45%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="settings">
+                    <div class="section-header">
+                        <h2><i class="fas fa-cog"></i> System Settings</h2>
+                        <p>Configure system preferences and options</p>
+                    </div>
+                    
+                    <div class="settings-panel">
+                        <div class="settings-card glass">
+                            <h3>General Settings</h3>
+                            <form id="settingsForm">
+                                <div class="form-group">
+                                    <label>Site Name</label>
+                                    <input type="text" value="HabilHub">
+                                </div>
+                                <div class="form-group">
+                                    <label>Site Description</label>
+                                    <textarea>Personal portfolio and dashboard system for Habil Haji Majid</textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i>
+                                    Save Settings
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="settings-card glass">
+                            <h3>Security</h3>
+                            <form id="securityForm">
+                                <div class="form-group">
+                                    <label>Change Username</label>
+                                    <input type="text" value="admin">
+                                </div>
+                                <div class="form-group">
+                                    <label>Change Password</label>
+                                    <input type="password" placeholder="Enter new password">
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i>
+                                    Update Password
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <div class="settings-card glass">
+                            <h3>Data Management</h3>
+                            <div class="data-actions">
+                                <button class="btn btn-secondary" id="exportData">
+                                    <i class="fas fa-download"></i>
+                                    Export Data
+                                </button>
+                                <button class="btn btn-secondary" id="clearData">
+                                    <i class="fas fa-trash"></i>
+                                    Clear All Data
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/particles.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
